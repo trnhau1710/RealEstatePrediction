@@ -13,5 +13,6 @@ COPY . .
 EXPOSE 8888
 
 
-CMD ["uvicorn", "src.server:app", "--host", "0.0.0.0", "--port", "$PORT"]
+CMD ["sh", "-c", "uvicorn src.server:app --host 0.0.0.0 --port $PORT"]
+
 

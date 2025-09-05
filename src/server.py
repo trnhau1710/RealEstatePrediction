@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import os, joblib
+import os, joblib, gdown
 import pandas as pd
 
 
@@ -8,9 +8,14 @@ import pandas as pd
 # ======================
 # 1. Load pipeline đã lưu
 # ======================
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # D:\RealEstateProject
-pipeline_path = os.path.join(BASE_DIR, "models", "stack_pipeline.pkl")
-stack_pipeline = joblib.load(pipeline_path)  
+MODEL_PATH = "stack_pipeline.pkl"
+
+if not os.path.exists(MODEL_PATH):
+    file_id = "1OOS4sujjakgfMho4Nxc4NLXVy_da5cjk"  # thay bằng ID thật
+    gdown.download(f"https://drive.google.com/uc?id={file_id}", MODEL_PATH, quiet=False)
+
+stack_pipeline = joblib.load(MODEL_PATH)
+
 
 # ======================
 # 2. Định nghĩa schema dữ liệu input
@@ -51,3 +56,4 @@ def predict(data: RealEstateInput):
 
     except Exception as e:
         return {"error": str(e)}
+
